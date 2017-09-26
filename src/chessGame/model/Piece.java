@@ -1,7 +1,10 @@
-package chessGame;
+package chessGame.model;
+
+import chessGame.util.Constant;
+import chessGame.util.Movement;
 
 import java.util.*;
-import java.util.function.Supplier;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -29,7 +32,7 @@ public class Piece {
      * Event map for subscriber design pattern
      * Proper events may be called by the Board when event happens
      */
-    public Map<String, Vector<Supplier<Piece>>> events = new HashMap<String, Vector<Supplier<Piece>>>();
+    public Map<String, Vector<Function<Board, Piece>>> events = new HashMap<String, Vector<Function<Board, Piece>>>();
 
     /**
      * Log every movements current piece have

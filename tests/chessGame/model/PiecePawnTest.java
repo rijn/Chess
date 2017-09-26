@@ -1,5 +1,7 @@
-package chessGame;
+package chessGame.model;
 
+import chessGame.model.*;
+import chessGame.util.Movement;
 import junit.framework.TestCase;
 
 import java.io.*;

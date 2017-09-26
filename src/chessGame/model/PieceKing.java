@@ -1,4 +1,6 @@
-package chessGame;
+package chessGame.model;
+
+import chessGame.util.Movement;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +10,12 @@ import java.util.stream.Collectors;
  * King class
  */
 public class PieceKing extends Piece {
-    PieceKing(PieceColor color) {
+    /**
+     * Constructor
+     *
+     * @param color
+     */
+    public PieceKing(PieceColor color) {
         this.color = color;
         name = "KING";
         shortName = color == PieceColor.BLACK ? '♔' : '♚';

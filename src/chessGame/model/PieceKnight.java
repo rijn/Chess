@@ -1,4 +1,6 @@
-package chessGame;
+package chessGame.model;
+
+import chessGame.util.Movement;
 
 import java.util.Arrays;
 

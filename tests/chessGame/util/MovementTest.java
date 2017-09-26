@@ -1,6 +1,7 @@
-package chessGame;
+package chessGame.util;
 
-import com.sun.tools.internal.jxc.ap.Const;
+import chessGame.util.Constant;
+import chessGame.util.Movement;
 import junit.framework.TestCase;
 
 public class MovementTest extends TestCase {
@@ -31,5 +32,9 @@ public class MovementTest extends TestCase {
         assertFalse(new Movement(0, -1).valid());
         assertFalse(new Movement(Constant.BOARD_SIZE_X, 0).valid());
         assertFalse(new Movement(0, Constant.BOARD_SIZE_X).valid());
+    }
+
+    public void testCopyConstuctor() throws Exception {
+        assertEquals(new Movement(0, 0), new Movement(new Movement(0, 0)));
     }
 }

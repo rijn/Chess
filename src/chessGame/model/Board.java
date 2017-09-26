@@ -1,6 +1,7 @@
-package chessGame;
+package chessGame.model;
 
-import com.sun.tools.internal.jxc.ap.Const;
+import chessGame.util.Constant;
+import chessGame.util.Movement;
 
 import java.io.OutputStream;
 import java.util.HashSet;
@@ -154,10 +155,10 @@ public class Board {
         }
 
         // custom piece
-//        insertPiece(new PieceDiamond(PieceColor.BLACK), 2, 2);
-//        insertPiece(new PieceKingKnight(PieceColor.BLACK), 2, 5);
-//        insertPiece(new PieceDiamond(PieceColor.WHITE), 5, 5);
-//        insertPiece(new PieceKingKnight(PieceColor.WHITE), 5, 2);
+        insertPiece(new PieceZebra(PieceColor.BLACK), 2, 2);
+        insertPiece(new PieceTnt(PieceColor.BLACK), 2, 5);
+        insertPiece(new PieceZebra(PieceColor.WHITE), 5, 5);
+        insertPiece(new PieceTnt(PieceColor.WHITE), 5, 2);
     }
 
     /**
@@ -209,8 +210,8 @@ public class Board {
      */
     public void callEvent(Piece piece, String eventName) {
         if (!piece.events.containsKey(eventName)) return;
-        piece.events.get(eventName).stream().forEach(supplier -> {
-            Piece returnVal = supplier.get();
+        piece.events.get(eventName).stream().forEach(fn -> {
+            Piece returnVal = fn.apply(this);
             if (returnVal == null) return;
 
             // deep copy the movement log and its color
@@ -232,16 +233,30 @@ public class Board {
     public void movePiece(Movement from, Movement to) {
         callEvent(getPiece(from), "BEFORE_MOVE");
 
-        if (board[to.x][to.y].piece != null) {
-            callEvent(getPiece(to), "BE_CAPTURED");
-        }
+        removePiece(to);
 
         board[to.x][to.y].piece = board[from.x][from.y].piece;
         board[from.x][from.y].piece = null;
 
+        if (this.getPiece(to) == null) return;
+
         this.getPiece(to).moveTo(to);
 
         callEvent(getPiece(to), "AFTER_MOVE");
+    }
+
+    /**
+     * Remove piece
+     *
+     * @param to Coordinate of piece
+     */
+    public void removePiece(Movement to) {
+        if (!to.valid()) return;
+
+        if (board[to.x][to.y].piece != null) {
+            callEvent(getPiece(to), "BE_CAPTURED");
+        }
+        board[to.x][to.y].piece = null;
     }
 
     /**

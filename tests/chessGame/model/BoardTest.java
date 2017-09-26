@@ -1,12 +1,17 @@
-package chessGame;
+package chessGame.model;
 
+import chessGame.model.Board;
+import chessGame.model.Piece;
+import chessGame.model.PieceColor;
+import chessGame.model.PiecePawn;
+import chessGame.util.Movement;
 import junit.framework.TestCase;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
-import java.io.PrintStream;
+import java.util.List;
 import java.util.Vector;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class BoardTest extends TestCase {
     public void testInitialize() throws Exception {
@@ -103,8 +108,8 @@ public class BoardTest extends TestCase {
         Board board = new Board();
         board.initialize();
 
-        board.getPiece(0, 0).events.put("TEST", new Vector<Supplier<Piece>>());
-        board.getPiece(0, 0).events.get("TEST").add(() -> new Piece());
+        board.getPiece(0, 0).events.put("TEST", new Vector<Function<Board, Piece>>());
+        board.getPiece(0, 0).events.get("TEST").add((Board _board) -> new Piece());
 
         board.callEvent(board.getPiece(0, 0), "TEST");
 
@@ -137,6 +142,18 @@ public class BoardTest extends TestCase {
         board.printBoardWithAvailableMovements(new Movement(1, 0), mockStream);
 
         assertEquals(mockStream.toString().length(), 162);
+    }
+
+    public void testGetAllPieces() throws Exception {
+        Board board = new Board();
+        board.initializeSpace();
+
+        board.insertPiece(new Piece(), 0, 0);
+
+        List<Piece> pieces = board.getPieces();
+
+        assertEquals(pieces.size(), 1);
+        assertEquals(pieces.get(0).name, "UNKNOWN");
     }
 
 }

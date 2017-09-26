@@ -1,11 +1,13 @@
-package chessGame;
+package chessGame.model;
+
+import chessGame.util.Movement;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
-import java.util.function.Supplier;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -15,7 +17,7 @@ public class PiecePawn extends Piece {
     InputStream systemIn;
     OutputStream systemOut;
 
-    PiecePawn(PieceColor color) {
+    public PiecePawn(PieceColor color) {
         this.color = color;
         name = "PAWN";
         shortName = color == PieceColor.BLACK ? '♙' : '♟';
@@ -23,7 +25,7 @@ public class PiecePawn extends Piece {
         /**
          * Register an afterMove event to check if it is suitable for promotion.
          */
-        events.put("AFTER_MOVE", new Vector<Supplier<Piece>>());
+        events.put("AFTER_MOVE", new Vector<Function<Board, Piece>>());
         events.get("AFTER_MOVE").add(eventPromotion);
 
         this.systemIn = System.in;
@@ -35,7 +37,7 @@ public class PiecePawn extends Piece {
      * will ask for user which type of piece they wish, then return that piece which will substitute current object
      * later in Board.
      */
-    public Supplier<Piece> eventPromotion = () -> {
+    public Function<Board, Piece> eventPromotion = (Board board) -> {
         if ((color == PieceColor.BLACK && currentMovement().x == 7) || currentMovement().x == 0) {
             try {
                 systemOut.write("Promotion (B for Bishop, K for Knight, Q for Queen, R for Rook)".getBytes());

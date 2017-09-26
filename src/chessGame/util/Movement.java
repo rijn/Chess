@@ -1,4 +1,4 @@
-package chessGame;
+package chessGame.util;
 
 /**
  * Movement or coordinate class
@@ -14,9 +14,25 @@ public class Movement implements Cloneable {
      */
     public int y = 0;
 
+    /**
+     * Constructor
+     *
+     * @param x
+     * @param y
+     */
     public Movement(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    /**
+     * Copy constructor
+     *
+     * @param original
+     */
+    public Movement(Movement original) {
+        this.x = original.x;
+        this.y = original.y;
     }
 
     /**

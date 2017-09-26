@@ -3,35 +3,52 @@ package chessGame;
 import java.io.*;
 import java.util.*;
 
+import chessGame.model.Board;
+import chessGame.model.PieceColor;
+import chessGame.model.Player;
+import chessGame.util.Movement;
 import chessGame.view.*;
 
 /**
  * Main static loop
  */
 public class ChessGame {
+    /**
+     * In stream
+     */
     static InputStream systemIn = System.in;
+
+    /**
+     * out stream
+     */
     static OutputStream systemOut = System.out;
 
-    public ChessGame() throws Exception {
-        Window window = new Window();
+    /**
+     * Board
+     */
+    Board board;
 
-        Board board = new Board();
-        board.initialize();
+    /**
+     * Players
+     */
+    Player[] players;
 
-        window.initializeBoard(board);
-
-        newGame(board);
+    /**
+     * Start a new chess game
+     *
+     * @param board
+     * @param players
+     * @throws Exception
+     */
+    public ChessGame(Board board, Player[] players) throws Exception {
+        this.board = board;
+        this.players = players;
     }
 
     /**
      * Start a new game by initialize the board as well as the players.
      */
-    public void newGame (Board board) throws Exception {
-        // Initialize players and their colors
-        Player[] players = new Player[]{
-                new Player(PieceColor.WHITE, "Player 1"),
-                new Player(PieceColor.BLACK, "Player 2")
-        };
+    public void newGame () throws Exception {
         int round = 0;
         Scanner scanner = new Scanner(systemIn);
 
@@ -58,7 +75,7 @@ public class ChessGame {
                 board.printBoard(systemOut);
 
                 // Test if user is in checkmate. If true, player can only move the King
-                boolean isInCheckmate = isInCheckmate(players[round], board);
+                boolean isInCheckmate = isInCheck(players[round], board);
                 if (isInCheckmate) {
                     systemOut.write("You're in checkmake.\r\n".getBytes());
                     coord = board.getPiece("KING", players[round].color).currentMovement();
@@ -108,7 +125,7 @@ public class ChessGame {
      * @param board Current board
      * @return boolean True if one side does not have King.
      */
-    public boolean isGameOver(Player[] players, Board board) {
+    public boolean isGameOver(Player[] players, chessGame.model.Board board) {
         return Arrays.asList(players).stream()
                 .anyMatch(player -> board.getPiece("KING", player.color) == null);
     }
@@ -120,8 +137,9 @@ public class ChessGame {
      * @param board Current board
      * @return boolean True if he is in checkmate
      */
-    public boolean isInCheckmate(Player currentPlayer, Board board) {
-        return board.getAvailableMovementsOfCondition(piece -> piece.color != currentPlayer.color)
+    public boolean isInCheck(Player currentPlayer, chessGame.model.Board board) {
+        return board.getPiece("KING", currentPlayer.color) != null &&
+                board.getAvailableMovementsOfCondition(piece -> piece.color != currentPlayer.color)
                 .contains(board.getPiece("KING", currentPlayer.color).currentMovement());
     }
 
@@ -141,9 +159,19 @@ public class ChessGame {
      * @throws Exception
      */
     public static void main (String[] args) throws Exception {
-        //newGame();
+        Window window = new Window();
 
-        new ChessGame();
+        Board board = new chessGame.model.Board();
+        board.initialize();
+
+        window.initializeBoard(board);
+
+        Player[] players = new Player[]{
+                new Player(PieceColor.WHITE, "Player 1"),
+                new Player(PieceColor.BLACK, "Player 2")
+        };
+
+        new ChessGame(board, players).newGame();
 
         return;
     }

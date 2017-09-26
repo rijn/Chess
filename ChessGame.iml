@@ -9,5 +9,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="junit-3.8.1" level="project" />
+    <orderEntry type="library" name="org.mockito:mockito-core:2.2.21" level="project" />
   </component>
 </module>

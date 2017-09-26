@@ -1,4 +1,4 @@
-package chessGame;
+package chessGame.model;
 
 /**
  * Queen class

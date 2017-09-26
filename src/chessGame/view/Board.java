@@ -1,21 +1,34 @@
 package chessGame.view;
 
-import chessGame.Constant;
-import chessGame.Movement;
+import chessGame.util.Constant;
+import chessGame.util.Movement;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
 
+/**
+ * Board view class
+ */
 public class Board extends ImagePanel {
-    chessGame.Board board;
+    /**
+     * Reference to the board model
+     */
+    chessGame.model.Board board;
 
+    /**
+     * Space matrix
+     */
     Space[][] spaces = new Space[Constant.BOARD_SIZE_X][Constant.BOARD_SIZE_Y];
 
-    public Board(chessGame.Board board) {
+    /**
+     * Constructor
+     *
+     * @param board
+     */
+    public Board(chessGame.model.Board board) {
         super(new ImageIcon(Piece.class.getResource("board.gif")).getImage());
 
         this.board = board;
@@ -41,6 +54,9 @@ public class Board extends ImagePanel {
         });
     }
 
+    /**
+     * Hide all available movements indicators
+     */
     public void hideAvailableMovements() {
         Arrays.stream(this.getComponents()).forEach(c -> {
             if (c instanceof Space) {
@@ -49,6 +65,11 @@ public class Board extends ImagePanel {
         });
     }
 
+    /**
+     * Show all available movements of the piece
+     *
+     * @param piece
+     */
     public void displayAvailableMovements(Piece piece) {
         board.getAvailableMovementsOfPiece(piece.piece.currentMovement()).stream()
                 .forEach(m -> {
@@ -56,11 +77,14 @@ public class Board extends ImagePanel {
                 });
     }
 
+    /**
+     * Clean all focus status
+     */
     public void clearFocus() {
         hideAvailableMovements();
         Arrays.stream(this.getComponents()).forEach(c -> {
             if (c instanceof Piece) {
-                ((Piece)c).toggle(false);
+                ((Piece)c).focus(false);
             }
         });
     }

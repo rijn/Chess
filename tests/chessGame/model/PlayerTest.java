@@ -1,5 +1,7 @@
-package chessGame;
+package chessGame.model;
 
+import chessGame.model.PieceColor;
+import chessGame.model.Player;
 import junit.framework.TestCase;
 
 public class PlayerTest extends TestCase {

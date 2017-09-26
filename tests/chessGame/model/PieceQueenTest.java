@@ -1,5 +1,9 @@
-package chessGame;
+package chessGame.model;
 
+import chessGame.model.Board;
+import chessGame.model.PieceColor;
+import chessGame.model.PieceQueen;
+import chessGame.util.Movement;
 import junit.framework.TestCase;
 
 public class PieceQueenTest extends TestCase {
