@@ -28,12 +28,12 @@ public class Log {
         callListener();
     }
 
-    public Boolean canUedo() {
+    public Boolean canUndo() {
         return current > 0;
     }
 
     public void undo() {
-        if (!canUedo()) return;
+        if (!canUndo()) return;
         current--;
         commands.get(current).undo();
         callListener();

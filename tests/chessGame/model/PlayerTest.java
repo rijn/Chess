@@ -6,8 +6,8 @@ import junit.framework.TestCase;
 
 public class PlayerTest extends TestCase {
     public void testConstructor() throws Exception {
-//        Player player = new Player(PieceColor.BLACK, "TEST");
-//        assertEquals(player.color, PieceColor.BLACK);
-//        assertEquals(player.name, "TEST");
+        Player player = new Player(PieceColor.BLACK, "TEST", 0, new Timer(0));
+        assertEquals(player.color, PieceColor.BLACK);
+        assertEquals(player.name, "TEST");
     }
 }

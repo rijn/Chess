@@ -10,7 +10,7 @@ public class PiecePawnTest extends TestCase {
     public void testGetAvailableMovements() throws Exception {
         Board board = new Board();
         board.initializeSpace();
-        board.insertPiece(new PiecePawn(PieceColor.BLACK), 0, 0);
+        board.insertPiece(new PiecePawn(PieceColor.WHITE), 0, 0);
         assertEquals(board.getPiece(0, 0).getAvailableMovements(new Movement(0, 0), board).size(), 2);
 
         board.movePiece(new Movement(0, 0), new Movement(1, 0));
@@ -20,10 +20,10 @@ public class PiecePawnTest extends TestCase {
     public void testIfPawnCanOccupyOtherPieces() throws Exception {
         Board board = new Board();
         board.initializeSpace();
-        board.insertPiece(new PiecePawn(PieceColor.BLACK), 0, 1);
+        board.insertPiece(new PiecePawn(PieceColor.WHITE), 0, 1);
         board.movePiece(new Movement(0, 1), new Movement(1, 1));
-        board.insertPiece(new PiecePawn(PieceColor.WHITE), 2, 0);
-        board.insertPiece(new PiecePawn(PieceColor.WHITE), 2, 2);
+        board.insertPiece(new PiecePawn(PieceColor.BLACK), 2, 0);
+        board.insertPiece(new PiecePawn(PieceColor.BLACK), 2, 2);
         assertEquals(board.getPiece(1, 1).getAvailableMovements(new Movement(1, 1), board).size(), 3);
     }
 

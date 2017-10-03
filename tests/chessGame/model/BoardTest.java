@@ -86,19 +86,19 @@ public class BoardTest extends TestCase {
     public void testGetAvailableMovementsOfCondition() throws Exception {
         Board board = new Board();
         board.initializeSpace();
-        board.insertPiece(new PiecePawn(PieceColor.BLACK), 0, 0);
-        board.insertPiece(new PiecePawn(PieceColor.WHITE), 7, 0);
+        board.insertPiece(new PiecePawn(PieceColor.WHITE), 0, 0);
+        board.insertPiece(new PiecePawn(PieceColor.BLACK), 7, 0);
 
         assertEquals(board.getAvailableMovementsOfCondition(null).size(), 4);
-        assertEquals(board.getAvailableMovementsOfCondition(piece -> piece.color == PieceColor.BLACK).size(), 2);
         assertEquals(board.getAvailableMovementsOfCondition(piece -> piece.color == PieceColor.WHITE).size(), 2);
+        assertEquals(board.getAvailableMovementsOfCondition(piece -> piece.color == PieceColor.BLACK).size(), 2);
     }
 
     public void testGetAvailableMovementsOfPiece() throws Exception {
         Board board = new Board();
         board.initializeSpace();
-        board.insertPiece(new PiecePawn(PieceColor.BLACK), 0, 0);
-        board.insertPiece(new PiecePawn(PieceColor.WHITE), 7, 0);
+        board.insertPiece(new PiecePawn(PieceColor.WHITE), 0, 0);
+        board.insertPiece(new PiecePawn(PieceColor.BLACK), 7, 0);
 
         assertEquals(board.getAvailableMovementsOfPiece(new Movement(0, 0)).size(), 2);
         assertEquals(board.getAvailableMovementsOfPiece(new Movement(0, 1)).size(), 0);

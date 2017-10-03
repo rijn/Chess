@@ -14,19 +14,6 @@ public class ChessGame {
      * @throws Exception
      */
     public static void main (String[] args) throws Exception {
-//        Window window = new Window();
-//
-//        Board board = new chessGame.model.Board();
-//        board.initialize();
-//
-//        window.initializeBoard(board);
-//
-//        Player[] players = new Player[]{
-//                new Player(PieceColor.WHITE, "Player 1"),
-//                new Player(PieceColor.BLACK, "Player 2")
-//        };
-//
-//        new ChessGame(board, players).newGame();
         ViewController.initialize();
 
         DB.connect();

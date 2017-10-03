@@ -134,7 +134,7 @@ public class Window {
     }
 
     public Consumer<Log> undoChange = log -> {
-        undo.setEnabled(log.canUedo());
+        undo.setEnabled(log.canUndo());
     };
 
     public Consumer<Log> redoChange = log -> {
