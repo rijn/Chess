@@ -16,6 +16,9 @@ public class Space extends JLabel {
      */
     Movement currentMovement;
 
+    /**
+     * Game coordinate
+     */
     Movement _movement;
 
     /**

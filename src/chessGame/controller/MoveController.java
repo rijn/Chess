@@ -8,24 +8,56 @@ import chessGame.util.Command;
 import chessGame.util.Movement;
 import chessGame.model.Board;
 
+/**
+ * Movement controller. Derived from command
+ */
 public class MoveController implements Command {
 
+    /**
+     * board reference
+     */
     Board board;
 
+    /**
+     * current move
+     */
     Movement from;
     Movement to;
 
+    /**
+     * holding the pieces for undo
+     */
     Piece source;
     Piece target = null;
 
+    /**
+     * restore the round
+     */
     Round round;
 
+    /**
+     * holding player for record
+     */
     Player player;
 
+    /**
+     * hold gc for game_id
+     */
     GameController gameController;
 
+    /**
+     * movement id
+     */
     Long id;
 
+    /**
+     * Constructor. Save everything
+     * @param gc
+     * @param board
+     * @param from
+     * @param to
+     * @param round
+     */
     public MoveController(GameController gc, Board board, Movement from, Movement to, Round round) {
         this.board = board;
         this.from = from;
@@ -35,6 +67,9 @@ public class MoveController implements Command {
         this.gameController = gc;
     }
 
+    /**
+     * Execute current move, i.e. move pieces and insert record into the db
+     */
     public void execute() {
         source = board.getPiece(from);
         target = board.getPiece(to);
@@ -43,6 +78,9 @@ public class MoveController implements Command {
         id = DB.insertMove(gameController, this);
     }
 
+    /**
+     * Undo current command, move pieces back to its position and delete record from the db
+     */
     public void undo() {
         board.movePiece(to, from);
         if (target != null) {

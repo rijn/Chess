@@ -7,9 +7,18 @@ import chessGame.model.Player;
 import java.sql.*;
 import java.util.List;
 
+/**
+ * Database model
+ */
 public class DB {
+    /**
+     * Hold overall connection
+     */
     static Connection c = null;
 
+    /**
+     * connect to the db
+     */
     public static void connect() {
         try {
             Class.forName("org.sqlite.JDBC");
@@ -23,12 +32,18 @@ public class DB {
         }
     }
 
+    /**
+     * disconnect from the db
+     */
     public static void disconnect() {
         try {
             c.close();
         } catch ( Exception e ) {}
     }
 
+    /**
+     * Initialize the db. create table if not exists
+     */
     public static void initialize() {
         Statement stmt = null;
         try {
@@ -67,6 +82,12 @@ public class DB {
         } catch ( Exception e ) { }
     }
 
+    /**
+     * Test if given user exists
+     * @param name
+     * @return
+     * @throws Exception
+     */
     public static Boolean isUserExist(String name) throws Exception {
         Statement stmt = c.createStatement();
         Boolean result = stmt.executeQuery( "SELECT COUNT(*) as count FROM users WHERE `name` = '" + name + "';")
@@ -75,6 +96,11 @@ public class DB {
         return result;
     }
 
+    /**
+     * Register user to the db
+     * @param name
+     * @return
+     */
     public static Boolean registerUser(String name) {
         Statement stmt = null;
         try {
@@ -91,6 +117,11 @@ public class DB {
         return true;
     }
 
+    /**
+     * Get user id from the db
+     * @param name
+     * @return
+     */
     public static Integer getUserId(String name) {
         Integer id = 0;
         Statement stmt = null;
@@ -107,6 +138,11 @@ public class DB {
         return id;
     }
 
+    /**
+     * Insert game record into the db
+     * @param players
+     * @return
+     */
     public static Long newGame(List<Player> players) {
         Statement stmt = null;
         try {
@@ -124,6 +160,12 @@ public class DB {
         return Long.valueOf(0);
     }
 
+    /**
+     * Insert move record to the db
+     * @param gc
+     * @param mc
+     * @return
+     */
     public static Long insertMove(GameController gc, MoveController mc) {
         Statement stmt = null;
         try {
@@ -147,6 +189,10 @@ public class DB {
         return Long.valueOf(0);
     }
 
+    /**
+     * Remove move record from the db
+     * @param id
+     */
     public static void removeMove(Long id) {
         Statement stmt = null;
         try {
@@ -157,6 +203,11 @@ public class DB {
         } catch ( Exception e ) { }
     }
 
+    /**
+     * Insert a particular event into the db
+     * @param gc
+     * @param ec
+     */
     public static void insertEvent(GameController gc, EventController ec) {
         Statement stmt = null;
         try {

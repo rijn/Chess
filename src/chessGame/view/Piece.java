@@ -22,6 +22,10 @@ public class Piece extends JLabel implements ActionListener {
      */
     chessGame.model.Piece piece;
 
+    /**
+     * Return pieces current view holds
+     * @return chessGame.model.Piece
+     */
     public chessGame.model.Piece getPiece() {
         return piece;
     }

@@ -18,19 +18,37 @@ import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
+/**
+ * All view controller
+ */
 public class ViewController {
+    /**
+     * Holding the main window
+     */
     static Window window;
 
+    /**
+     * initialize
+     */
     public static void initialize() {
         window = new Window();
 
         initializeMainWindowListener();
     }
 
+    /**
+     * Holding all static resource
+     */
     static Log log;
-
     static GameController gameController;
+    static List<Player> players;
+    static chessGame.model.Board board;
+    static chessGame.view.Board _board;
+    static Round round;
 
+    /**
+     * Initialize main window listeners
+     */
     public static void initializeMainWindowListener() {
         window.addNewUserListener(new ActionListener(){
             @Override
@@ -71,7 +89,7 @@ public class ViewController {
                 }
             }
         });
-        window.addRndoistener(new ActionListener() {
+        window.addRedoistener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (log != null) {
@@ -89,6 +107,10 @@ public class ViewController {
 
     }
 
+    /**
+     * initialize new user window listeners
+     * @param newUserWindow
+     */
     public static void initializeNewUserWindowListener(NewUserWindow newUserWindow) {
         newUserWindow.addRegisterUserListener(new ActionListener() {
             @Override
@@ -102,11 +124,10 @@ public class ViewController {
         });
     }
 
-    static List<Player> players;
-    static chessGame.model.Board board;
-    static chessGame.view.Board _board;
-    static Round round;
-
+    /**
+     * Initialize new game window listeners
+     * @param newGameWindow
+     */
     public static void initializeNewGameWindowListener(NewGameWindow newGameWindow) {
         newGameWindow.addNewGameListener(new ActionListener() {
             @Override

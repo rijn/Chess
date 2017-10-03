@@ -34,6 +34,9 @@ public class Board {
         }
     }
 
+    /**
+     * Board spaces
+     */
     Space[][] board = new Space[Constant.BOARD_SIZE_X][Constant.BOARD_SIZE_Y];
 
     /**

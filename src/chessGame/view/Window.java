@@ -52,6 +52,11 @@ public class Window {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Set title of the main window
+     *
+     * @param s
+     */
     public void setTitle(String s) {
         window.setTitle(s);
     }
@@ -68,6 +73,9 @@ public class Window {
         window.getContentPane().add(panel);
     }
 
+    /**
+     * Board view holder, for destruction
+     */
     chessGame.view.Board board;
 
     /**
@@ -81,11 +89,17 @@ public class Window {
         SwingUtilities.updateComponentTreeUI(window);
     }
 
+    /**
+     * Remove board from the frame
+     */
     public void removeBoard() {
         if (board == null) return;
         panel.remove(board);
     }
 
+    /**
+     * Brunch of menu item
+     */
     JMenuItem newUser;
     JMenuItem newGame;
     JMenuItem pauseGame;
@@ -133,39 +147,73 @@ public class Window {
         window.setJMenuBar(menubar);
     }
 
+    /**
+     * Event consumer
+     */
     public Consumer<Log> undoChange = log -> {
         undo.setEnabled(log.canUndo());
     };
 
+    /**
+     * Event consumer
+     */
     public Consumer<Log> redoChange = log -> {
         redo.setEnabled(log.canRedo());
     };
 
+    /**
+     * Add event listener to button new user
+     * @param a
+     */
     public void addNewUserListener(ActionListener a) {
         newUser.addActionListener(a);
     }
 
+    /**
+     * Add event listener to button new game
+     * @param a
+     */
     public void addNewGameListener(ActionListener a) {
         newGame.addActionListener(a);
     }
 
+    /**
+     * Add event listener to button pause game
+     * @param a
+     */
     public void addPauseGameListener(ActionListener a) {
         pauseGame.addActionListener(a);
     }
 
+    /**
+     * Add event listener to button forfeit
+     * @param a
+     */
     public void addForfeitGameListener(ActionListener a) {
         forfeitGame.addActionListener(a);
     }
 
+    /**
+     * Add event listener to scoreboard
+     * @param a
+     */
     public void addScordboardListener(ActionListener a) {
         scoreboard.addActionListener(a);
     }
 
+    /**
+     * Add event listener to undo
+     * @param a
+     */
     public void addUndoistener(ActionListener a) {
         undo.addActionListener(a);
     }
 
-    public void addRndoistener(ActionListener a) {
+    /**
+     * Add event listener to redo
+     * @param a
+     */
+    public void addRedoistener(ActionListener a) {
         redo.addActionListener(a);
     }
 

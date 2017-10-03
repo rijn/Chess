@@ -20,6 +20,9 @@ public class Board extends ImagePanel {
      */
     chessGame.model.Board board;
 
+    /**
+     * Round bounding
+     */
     public chessGame.model.Round round = null;
 
     /**
@@ -27,9 +30,18 @@ public class Board extends ImagePanel {
      */
     Space[][] spaces = new Space[Constant.BOARD_SIZE_X][Constant.BOARD_SIZE_Y];
 
+    /**
+     * From movement
+     */
     Movement from;
+    /**
+     * To movement
+     */
     Movement to;
 
+    /**
+     * Move event listener
+     */
     BiConsumer<Movement, Movement> moveListener;
 
     /**
@@ -105,10 +117,18 @@ public class Board extends ImagePanel {
         from = null;
     }
 
+    /**
+     * Set chess move listener
+     * @param fn
+     */
     public void setMoveListener(BiConsumer<Movement, Movement> fn) {
         this.moveListener = fn;
     }
 
+    /**
+     * Move to helper, listener caller
+     * @param to
+     */
     public void moveTo(Movement to) {
         this.to = to;
         if (from != null) {

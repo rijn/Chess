@@ -6,8 +6,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Window for new user
+ */
 public class NewUserWindow {
+    /**
+     * Main frame
+     */
     JFrame window;
+
+    /**
+     * New window constructor
+     */
     public NewUserWindow() {
         window = new JFrame("New User");
         window.setSize(300, 100);
@@ -22,10 +32,17 @@ public class NewUserWindow {
         window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * Window disposer
+     */
     public void dispose() {
         window.dispose();
     }
 
+    /**
+     * Initialize panel
+     * @return
+     */
     private JPanel initializePanel() {
         JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(300,100));
@@ -33,17 +50,37 @@ public class NewUserWindow {
         return panel;
     }
 
+    /**
+     * Button of register user
+     */
     JButton registerUser;
+
+    /**
+     * Initialize button
+     * @param panel
+     */
     private void initializeButton(JPanel panel) {
         registerUser = new JButton("Register");
         panel.add(registerUser, BorderLayout.SOUTH);
     }
 
+    /**
+     * Add event listener to the button register user
+     * @param a
+     */
     public void addRegisterUserListener(ActionListener a) {
         registerUser.addActionListener(a);
     }
 
+    /**
+     * Text area for username
+     */
     JTextArea textArea;
+
+    /**
+     * Initialize text area
+     * @param panel
+     */
     private void initializeTextArea(JPanel panel) {
         textArea = new JTextArea();
         textArea.setBorder(BorderFactory.createCompoundBorder(
@@ -52,6 +89,10 @@ public class NewUserWindow {
         panel.add(textArea, BorderLayout.NORTH);
     }
 
+    /**
+     * Get username that user typed in
+     * @return
+     */
     public String getUserName() {
         return textArea.getText();
     }

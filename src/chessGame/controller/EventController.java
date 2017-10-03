@@ -8,20 +8,41 @@ import chessGame.util.Event;
 
 import javax.swing.*;
 
+/**
+ * Event controller for record big event
+ */
 public class EventController implements Command {
 
+    /**
+     * gc reference
+     */
     GameController gameController;
 
+    /**
+     * player who rise the event
+     */
     Player player;
 
+    /**
+     * type of event
+     */
     Event event;
 
+    /**
+     * Constructor
+     * @param gc
+     * @param player
+     * @param e
+     */
     public EventController(GameController gc, Player player, Event e) {
         this.gameController = gc;
         this.player = player;
         this.event = e;
     }
 
+    /**
+     * Prompt user and stop the game
+     */
     @Override
     public void execute() {
         switch (this.event) {
@@ -42,6 +63,11 @@ public class EventController implements Command {
         DB.insertEvent(gameController, this);
     }
 
+    /**
+     * Cannot Undo
+     *
+     * TODO: Return false to avoid undo
+     */
     @Override
     public void undo() {
         JOptionPane.showMessageDialog(null, "You cannot undo an event", "Error", JOptionPane.INFORMATION_MESSAGE);

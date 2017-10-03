@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.function.BiConsumer;
 
+/**
+ * Game controller for game logic
+ */
 public class GameController {
     /**
      * In stream
@@ -38,24 +41,54 @@ public class GameController {
      */
     List<Player> players;
 
+    /**
+     * Round reference
+     */
     Round round;
 
+    /**
+     * Log reference
+     */
     Log log;
 
+    /**
+     * Move trigger for check statements
+     */
     public BiConsumer<Movement, Movement> moveTrigger = (from, to) -> move(from, to);
 
+    /**
+     * Timer for refreshing the remaining time
+     */
     Timer timer;
 
+    /**
+     * Bind event listener to the timer
+     * @param a
+     */
     public void addTimerListener(ActionListener a) {
         timer.addActionListener(a);
     }
 
+    /**
+     * game_id
+     */
     Long id;
 
+    /**
+     * get game_id
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Constructor
+     * @param board
+     * @param players
+     * @param round
+     * @param log
+     */
     public GameController(Board board, List<Player> players, Round round, Log log) {
         this.board = board;
         this.players = players;
@@ -75,26 +108,46 @@ public class GameController {
         startGame();
     }
 
+    /**
+     * check if timer has been started
+     * @return
+     */
     public Boolean isStarted() {
         return round.current().timer.isEnabled();
     }
 
+    /**
+     * start the timer
+     */
     public void startGame() {
         round.current().timer.enable();
         timer.start();
     }
 
+    /**
+     * stop the timer
+     */
     public void pauseGame() {
         round.current().timer.disable();
         timer.stop();
     }
 
+    /**
+     * Record important event
+     * @param event
+     */
     public void ariseEvent(Event event) {
         EventController e = new EventController(this, round.current(), event);
         log.record(e);
         e.execute();
     }
 
+    /**
+     * Main game loop and logic
+     *
+     * @param from
+     * @param to
+     */
     public void move(Movement from, Movement to) {
         try {
             // Test if current player is in check
@@ -136,7 +189,7 @@ public class GameController {
     }
 
     /**
-     * Return true if specific player is in checkmake.
+     * Return true if specific player is in check.
      *
      * @param currentPlayer Player that wish to be inspected
      * @param board Current board
@@ -148,6 +201,13 @@ public class GameController {
                         .contains(board.getPiece("KING", currentPlayer.color).currentMovement());
     }
 
+    /**
+     * Return true if current player is in checkmate.
+     *
+     * @param currentPlayer
+     * @param board
+     * @return
+     */
     public boolean isInCheckmate(Player currentPlayer, chessGame.model.Board board) {
         return isInCheck(currentPlayer, board) &&
                 board.getPiece("KING", currentPlayer.color) != null &&
