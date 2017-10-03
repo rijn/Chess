@@ -1,5 +1,5 @@
 package chessGame.util;
 
 public enum Event {
-    CHECKMATE, GAME_OVER, FORFEIT
+    CHECKMATE, GAME_OVER, FORFEIT, STALEMATE
 }

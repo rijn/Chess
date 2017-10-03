@@ -132,17 +132,17 @@ public class Piece extends JLabel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        this.currentMovement.move(getCoordX(piece.currentMovement()) > currentMovement.x ? 2 : -2, getCoordY(piece.currentMovement()) > currentMovement.y ? 1 : -1);
-        if (Math.abs(getCoordX(piece.currentMovement()) - currentMovement.x) <= 2) {
+        this.currentMovement.move(getCoordX(piece.currentMovement()) > currentMovement.x ? 4 : -4, getCoordY(piece.currentMovement()) > currentMovement.y ? 2 : -2);
+        if (Math.abs(getCoordX(piece.currentMovement()) - currentMovement.x) <= 4) {
             currentMovement.x = getCoordX(piece.currentMovement());
         }
-        if (Math.abs(getCoordY(piece.currentMovement()) - currentMovement.y) <= 1) {
+        if (Math.abs(getCoordY(piece.currentMovement()) - currentMovement.y) <= 2) {
             currentMovement.y = getCoordY(piece.currentMovement());
         }
 
         move();
 
-        if (Math.abs(getCoordX(piece.currentMovement()) - currentMovement.x) <= 2 &&
+        if (Math.abs(getCoordX(piece.currentMovement()) - currentMovement.x) <= 4 &&
             Math.abs(getCoordY(piece.currentMovement()) - currentMovement.y) <= 2) {
             ((Timer)e.getSource()).stop();
         }

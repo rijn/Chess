@@ -5,6 +5,7 @@ import chessGame.model.PieceColor;
 import chessGame.model.Player;
 import chessGame.model.Round;
 import chessGame.model.storage.DB;
+import chessGame.util.Event;
 import chessGame.view.NewGameWindow;
 import chessGame.view.NewUserWindow;
 import chessGame.view.Window;
@@ -58,7 +59,7 @@ public class ViewController {
         window.addForfeitGameListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameController.forfeitGame();
+                gameController.ariseEvent(Event.FORFEIT);
             }
         });
 

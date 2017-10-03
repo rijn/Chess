@@ -138,8 +138,8 @@ public class Board {
         insertPiece(new PieceRook(PieceColor.WHITE), 0, 0);
         insertPiece(new PieceKnight(PieceColor.WHITE), 0, 1);
         insertPiece(new PieceBishop(PieceColor.WHITE), 0, 2);
-        insertPiece(new PieceKing(PieceColor.WHITE), 0, 3);
-        insertPiece(new PieceQueen(PieceColor.WHITE), 0, 4);
+        insertPiece(new PieceQueen(PieceColor.WHITE), 0, 3);
+        insertPiece(new PieceKing(PieceColor.WHITE), 0, 4);
         insertPiece(new PieceBishop(PieceColor.WHITE), 0, 5);
         insertPiece(new PieceKnight(PieceColor.WHITE), 0, 6);
         insertPiece(new PieceRook(PieceColor.WHITE), 0, 7);

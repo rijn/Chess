@@ -1,5 +1,11 @@
 package chessGame.model.storage;
+import chessGame.controller.EventController;
+import chessGame.controller.GameController;
+import chessGame.controller.MoveController;
+import chessGame.model.Player;
+
 import java.sql.*;
+import java.util.List;
 
 public class DB {
     static Connection c = null;
@@ -99,5 +105,69 @@ public class DB {
         } catch ( Exception e ) { }
 
         return id;
+    }
+
+    public static Long newGame(List<Player> players) {
+        Statement stmt = null;
+        try {
+            stmt = c.createStatement();
+            stmt.executeUpdate("INSERT INTO games (white_id, black_id) VALUES (" + players.get(0).id + "," + players.get(1).id + ");");
+            stmt.close();
+            c.commit();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getLong(1);
+            }
+        } catch ( Exception e ) { }
+
+        return Long.valueOf(0);
+    }
+
+    public static Long insertMove(GameController gc, MoveController mc) {
+        Statement stmt = null;
+        try {
+            stmt = c.createStatement();
+            stmt.executeUpdate("INSERT INTO moves (game_id, player_id, from_x, from_y, to_x, to_y, comment)" +
+                    " VALUES (" + gc.getId() + "," + mc.getPlayer().id + "," +
+                    mc.getFrom().x + "," + mc.getFrom().y + "," +
+                    mc.getTo().x + "," + mc.getTo().y + "," +
+                    "'" + mc.getSource().name + "');");
+            stmt.close();
+            c.commit();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getLong(1);
+            }
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+
+        return Long.valueOf(0);
+    }
+
+    public static void removeMove(Long id) {
+        Statement stmt = null;
+        try {
+            stmt = c.createStatement();
+            stmt.executeUpdate("DELETE FROM moves WHERE id = " + id + " LIMIT 1;");
+            stmt.close();
+            c.commit();
+        } catch ( Exception e ) { }
+    }
+
+    public static void insertEvent(GameController gc, EventController ec) {
+        Statement stmt = null;
+        try {
+            stmt = c.createStatement();
+            stmt.executeUpdate("INSERT INTO moves (game_id, player_id, comment)" +
+                    " VALUES (" + gc.getId() + "," + ec.getPlayer().id + "," +
+                    "'" + ec.getEvent() + "');");
+            stmt.close();
+            c.commit();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
     }
 }

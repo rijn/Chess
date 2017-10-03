@@ -4,6 +4,7 @@ import chessGame.model.Board;
 import chessGame.model.Log;
 import chessGame.model.Player;
 import chessGame.model.Round;
+import chessGame.model.storage.DB;
 import chessGame.util.Event;
 import chessGame.util.Movement;
 
@@ -49,6 +50,11 @@ public class GameController {
         timer.addActionListener(a);
     }
 
+    Long id;
+
+    public Long getId() {
+        return id;
+    }
 
     public GameController(Board board, List<Player> players, Round round, Log log) {
         this.board = board;
@@ -63,6 +69,8 @@ public class GameController {
             r.current().timer.enable();
             r.getNotCurrentPlayers().stream().forEach(p -> p.timer.disable());
         });
+
+        id = DB.newGame(players);
 
         startGame();
     }
@@ -81,64 +89,37 @@ public class GameController {
         timer.stop();
     }
 
-    public void forfeitGame() {
-        EventController e = new EventController(this, round.current(), Event.FORFEIT);
+    public void ariseEvent(Event event) {
+        EventController e = new EventController(this, round.current(), event);
         log.record(e);
         e.execute();
     }
 
     public void move(Movement from, Movement to) {
         try {
-            // Test if game is over
-            if (isGameOver(players, board)) {
-                systemOut.write("Game over.\r\n".getBytes());
+            // Test if current player is in check
+            if (isInCheck(round.current(), board) && board.getPiece(from).name != "KING") {
+                JOptionPane.showMessageDialog(null, "Illegal movement", "In check", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
 
-            // Test if game is in stalemate
-            if (isInStalemate(board)) {
-                systemOut.write("Stalemate! Game over.\r\n".getBytes());
-                return;
-            }
-
-
-            // Test if user is in checkmate. If true, player can only move the King
-            boolean isInCheckmate = isInCheck(round.current(), board);
-//            if (isInCheckmate) {
-//                systemOut.write("You're in checkmake.\r\n".getBytes());
-//                coord = board.getPiece("KING", round.current().color).currentMovement();
-//            } else {
-//                // Prompt user to type in the location of the piece that he wish to move
-//                do {
-//                    systemOut.write("Input the coord of the piece that you wish to move (e.g. a1) : ".getBytes());
-//                    String command = scanner.next();
-//                    coord = new Movement(command.charAt(1) - 49, command.charAt(0) - 97);
-//                } while (board.getPiece(coord) == null || board.getPiece(coord).color != round.current().color);
-//            }
-            systemOut.write(("The piece is " + board.getPiece(from).name + "\r\n").getBytes());
-
-            // Get all available movements of that piece
-            // TODO: update printBoardWithAvailableMovements here, pass in movements other than location
-            List<Movement> availableMovements;
-            availableMovements = board.getAvailableMovementsOfPiece(from);
-            if (availableMovements.size() > 0) {
-                // If there are possible movements
-            } else {
-                // If user can do nothing with the piece
-                if (isInCheckmate) {
-                    // systemOut.write("Game over.\r\n".getBytes());
-                    return;
-                } else {
-                    // systemOut.write("You cannot move this piece.\r\n".getBytes());
-                }
-            }
-
-            MoveController move = new MoveController(board, from, to, round);
+            MoveController move = new MoveController(this, board, from, to, round);
             move.execute();
             log.record(move);
 
             // Switch to next round
             round.next();
+
+            // Test if game is over
+            if (isInCheckmate(round.current(), board)) {
+                ariseEvent(Event.CHECKMATE);
+                return;
+            }
+
+            if (isInStalemate(board)) {
+                ariseEvent(Event.STALEMATE);
+                return;
+            }
         } catch ( Exception e ) { }
     }
 
