@@ -127,32 +127,36 @@ public class Board {
         board[movement.x][movement.y].occupy(piece);
     }
 
+    public void insertPiece(Piece piece, Movement movement) {
+        insertPiece(piece, movement.x, movement.y);
+    }
+
     /**
      * Initialize Pieces.
      */
     public void initializePieces () {
-        insertPiece(new PieceRook(PieceColor.BLACK), 0, 0);
-        insertPiece(new PieceKnight(PieceColor.BLACK), 0, 1);
-        insertPiece(new PieceBishop(PieceColor.BLACK), 0, 2);
-        insertPiece(new PieceKing(PieceColor.BLACK), 0, 3);
-        insertPiece(new PieceQueen(PieceColor.BLACK), 0, 4);
-        insertPiece(new PieceBishop(PieceColor.BLACK), 0, 5);
-        insertPiece(new PieceKnight(PieceColor.BLACK), 0, 6);
-        insertPiece(new PieceRook(PieceColor.BLACK), 0, 7);
+        insertPiece(new PieceRook(PieceColor.WHITE), 0, 0);
+        insertPiece(new PieceKnight(PieceColor.WHITE), 0, 1);
+        insertPiece(new PieceBishop(PieceColor.WHITE), 0, 2);
+        insertPiece(new PieceKing(PieceColor.WHITE), 0, 3);
+        insertPiece(new PieceQueen(PieceColor.WHITE), 0, 4);
+        insertPiece(new PieceBishop(PieceColor.WHITE), 0, 5);
+        insertPiece(new PieceKnight(PieceColor.WHITE), 0, 6);
+        insertPiece(new PieceRook(PieceColor.WHITE), 0, 7);
         for (int y = 0; y < 8; y ++) {
-            insertPiece(new PiecePawn(PieceColor.BLACK), 1, y);
+            insertPiece(new PiecePawn(PieceColor.WHITE), 1, y);
         }
 
-        insertPiece(new PieceRook(PieceColor.WHITE), 7, 0);
-        insertPiece(new PieceKnight(PieceColor.WHITE), 7, 1);
-        insertPiece(new PieceBishop(PieceColor.WHITE), 7, 2);
-        insertPiece(new PieceQueen(PieceColor.WHITE), 7, 3);
-        insertPiece(new PieceKing(PieceColor.WHITE), 7, 4);
-        insertPiece(new PieceBishop(PieceColor.WHITE), 7, 5);
-        insertPiece(new PieceKnight(PieceColor.WHITE), 7, 6);
-        insertPiece(new PieceRook(PieceColor.WHITE), 7, 7);
+        insertPiece(new PieceRook(PieceColor.BLACK), 7, 0);
+        insertPiece(new PieceKnight(PieceColor.BLACK), 7, 1);
+        insertPiece(new PieceBishop(PieceColor.BLACK), 7, 2);
+        insertPiece(new PieceQueen(PieceColor.BLACK), 7, 3);
+        insertPiece(new PieceKing(PieceColor.BLACK), 7, 4);
+        insertPiece(new PieceBishop(PieceColor.BLACK), 7, 5);
+        insertPiece(new PieceKnight(PieceColor.BLACK), 7, 6);
+        insertPiece(new PieceRook(PieceColor.BLACK), 7, 7);
         for (int y = 0; y < 8; y ++) {
-            insertPiece(new PiecePawn(PieceColor.WHITE), 6, y);
+            insertPiece(new PiecePawn(PieceColor.BLACK), 6, y);
         }
 
 //        // custom piece
@@ -225,7 +229,7 @@ public class Board {
     }
 
     /**
-     * Move piece on board. Take two movements as the arguments.
+     * MoveController piece on board. Take two movements as the arguments.
      * Will also triger the beforeMove and afterMove events.
      *
      * @param from The location of source

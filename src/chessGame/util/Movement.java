@@ -64,7 +64,7 @@ public class Movement implements Cloneable {
      *
      * @param dx Differential in axis x
      * @param dy Differential in axis y
-     * @return Movement Move current one and return
+     * @return Movement MoveController current one and return
      */
     public Movement move(int dx, int dy) {
         x = x + dx;
@@ -76,7 +76,7 @@ public class Movement implements Cloneable {
      * Add another movement to current movement
      *
      * @param d Differential movement
-     * @return Movement Move current one and return
+     * @return Movement MoveController current one and return
      */
     public Movement move(Movement d) {
         if (d == null) return this;

@@ -72,11 +72,11 @@ public class PiecePawn extends Piece {
 
         // If it's the first move, pawn can move two steps, otherwise one.
         // If any piece on current line, then pawn cannot occupy them
-        Movement current = new Movement(this.color == PieceColor.BLACK ? 1 : -1, 0).move(base);
+        Movement current = new Movement(this.color == PieceColor.WHITE ? 1 : -1, 0).move(base);
         if (board.getPiece(current) == null) {
             output.add((Movement) current.clone());
             if (this.moveLog.size() == 1) {
-                current.move(new Movement(this.color == PieceColor.BLACK ? 1 : -1, 0));
+                current.move(new Movement(this.color == PieceColor.WHITE ? 1 : -1, 0));
                 if (board.getPiece(current) == null) {
                     output.add((Movement) current.clone());
                 }
@@ -84,11 +84,11 @@ public class PiecePawn extends Piece {
         }
 
         // If pawn can eat other pieces
-        if (board.getPiece(new Movement(this.color == PieceColor.BLACK ? 1 : -1, -1).move(base)) != null) {
-            output.add(new Movement(this.color == PieceColor.BLACK ? 1 : -1, -1).move(base));
+        if (board.getPiece(new Movement(this.color == PieceColor.WHITE ? 1 : -1, -1).move(base)) != null) {
+            output.add(new Movement(this.color == PieceColor.WHITE ? 1 : -1, -1).move(base));
         }
-        if (board.getPiece(new Movement(this.color == PieceColor.BLACK ? 1 : -1, 1).move(base)) != null) {
-            output.add(new Movement(this.color == PieceColor.BLACK ? 1 : -1, 1).move(base));
+        if (board.getPiece(new Movement(this.color == PieceColor.WHITE ? 1 : -1, 1).move(base)) != null) {
+            output.add(new Movement(this.color == PieceColor.WHITE ? 1 : -1, 1).move(base));
         }
 
         return output.stream()

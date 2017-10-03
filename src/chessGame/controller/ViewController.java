@@ -1,5 +1,6 @@
 package chessGame.controller;
 
+import chessGame.model.Log;
 import chessGame.model.PieceColor;
 import chessGame.model.Player;
 import chessGame.model.Round;
@@ -11,6 +12,10 @@ import chessGame.view.Window;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
+import java.util.stream.Collectors;
 
 public class ViewController {
     static Window window;
@@ -20,6 +25,10 @@ public class ViewController {
 
         initializeMainWindowListener();
     }
+
+    static Log log;
+
+    static GameController gameController;
 
     public static void initializeMainWindowListener() {
         window.addNewUserListener(new ActionListener(){
@@ -39,26 +48,34 @@ public class ViewController {
         window.addPauseGameListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO
+                if (gameController.isStarted()) {
+                    gameController.pauseGame();
+                } else {
+                    gameController.startGame();
+                }
             }
         });
         window.addForfeitGameListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO
+                gameController.forfeitGame();
             }
         });
 
         window.addUndoistener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO
+                if (log != null) {
+                    log.undo();
+                }
             }
         });
         window.addRndoistener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO
+                if (log != null) {
+                    log.redo();
+                }
             }
         });
 
@@ -84,6 +101,11 @@ public class ViewController {
         });
     }
 
+    static List<Player> players;
+    static chessGame.model.Board board;
+    static chessGame.view.Board _board;
+    static Round round;
+
     public static void initializeNewGameWindowListener(NewGameWindow newGameWindow) {
         newGameWindow.addNewGameListener(new ActionListener() {
             @Override
@@ -99,19 +121,33 @@ public class ViewController {
                     return;
                 }
 
-                chessGame.model.Board board = new chessGame.model.Board();
+                window.removeBoard();
 
-                Player[] players = new Player[]{
-                    new Player(PieceColor.WHITE, newGameWindow.getWhitePlayerName(), whitePlayerId),
-                    new Player(PieceColor.BLACK, newGameWindow.getBlackPlayerName(), blackPlayerId)
-                };
+                board = new chessGame.model.Board();
 
-                Round round = new Round(players);
+                players = new Vector<Player>(Arrays.asList(new Player[]{
+                        new Player(PieceColor.WHITE, newGameWindow.getWhitePlayerName(), whitePlayerId, new chessGame.model.Timer(3600)),
+                        new Player(PieceColor.BLACK, newGameWindow.getBlackPlayerName(), blackPlayerId, new chessGame.model.Timer(3600))
+                }));
 
-                chessGame.view.Board _board = new chessGame.view.Board(board, round);
+                log = new Log();
+
+                log.addListener(window.undoChange);
+                log.addListener(window.redoChange);
+
+                round = new Round(players);
+
+                _board = new chessGame.view.Board(board, round);
                 window.initializeBoard(_board);
 
-                GameController gameController = new GameController(board, players, round);
+                gameController = new GameController(board, players, round, log);
+
+                gameController.addTimerListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        window.setTitle(players.stream().map(p -> p.name + " " + p.timer.getString()).collect(Collectors.joining(" / ")));
+                    }
+                });
 
                 _board.setMoveListener(gameController.moveTrigger);
 

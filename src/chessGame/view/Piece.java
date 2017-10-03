@@ -22,6 +22,10 @@ public class Piece extends JLabel implements ActionListener {
      */
     chessGame.model.Piece piece;
 
+    public chessGame.model.Piece getPiece() {
+        return piece;
+    }
+
     /**
      * Current coordinate on panel
      */
@@ -97,9 +101,15 @@ public class Piece extends JLabel implements ActionListener {
             piece.events.put("BE_CAPTURED", new Vector<Function<chessGame.model.Board, chessGame.model.Piece>>());
         }
         piece.events.get("BE_CAPTURED").add((chessGame.model.Board _board) -> {
-            Container board = getParent();
-            board.remove(this);
-            SwingUtilities.updateComponentTreeUI(board);
+            setVisible(false);
+            return null;
+        });
+
+        if (piece.events.get("BE_RELEASED") == null) {
+            piece.events.put("BE_RELEASED", new Vector<Function<chessGame.model.Board, chessGame.model.Piece>>());
+        }
+        piece.events.get("BE_RELEASED").add((chessGame.model.Board _board) -> {
+            setVisible(true);
             return null;
         });
 
@@ -167,7 +177,7 @@ public class Piece extends JLabel implements ActionListener {
     }
 
     /**
-     * Move to current coordinate
+     * MoveController to current coordinate
      */
     void move() {
         setLocation(currentMovement.x, currentMovement.y);

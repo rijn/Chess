@@ -56,7 +56,7 @@ public class Space extends JLabel {
     }
 
     /**
-     * Move to corresponding location on panel
+     * MoveController to corresponding location on panel
      */
     void move() {
         setLocation(currentMovement.x, currentMovement.y);

@@ -1,10 +1,13 @@
 package chessGame.view;
 
+import chessGame.model.Log;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.function.Consumer;
 
 /**
  * Window class
@@ -49,6 +52,10 @@ public class Window {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public void setTitle(String s) {
+        window.setTitle(s);
+    }
+
     /**
      * Initialize main panel
      */
@@ -61,14 +68,22 @@ public class Window {
         window.getContentPane().add(panel);
     }
 
+    chessGame.view.Board board;
+
     /**
      * Initialize board
      *
      * @param board
      */
     public void initializeBoard(chessGame.view.Board board) {
+        this.board = board;
         panel.add(BorderLayout.CENTER, board);
         SwingUtilities.updateComponentTreeUI(window);
+    }
+
+    public void removeBoard() {
+        if (board == null) return;
+        panel.remove(board);
     }
 
     JMenuItem newUser;
@@ -104,8 +119,10 @@ public class Window {
         JMenu move = new JMenu("Move");
         menubar.add(move);
         undo = new JMenuItem("Undo");
+        undo.setEnabled(false);
         move.add(undo);
         redo = new JMenuItem("Redo");
+        redo.setEnabled(false);
         move.add(redo);
 
         JMenu history = new JMenu("History");
@@ -115,6 +132,14 @@ public class Window {
 
         window.setJMenuBar(menubar);
     }
+
+    public Consumer<Log> undoChange = log -> {
+        undo.setEnabled(log.canUedo());
+    };
+
+    public Consumer<Log> redoChange = log -> {
+        redo.setEnabled(log.canRedo());
+    };
 
     public void addNewUserListener(ActionListener a) {
         newUser.addActionListener(a);

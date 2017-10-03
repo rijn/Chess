@@ -40,7 +40,7 @@ public class Piece {
     public List<Movement> moveLog = new Vector<Movement>();
 
     /**
-     * Move piece to target location.
+     * MoveController piece to target location.
      * May apply to more events such at beforeMove or afterMove in the future.
      *
      * @param move The location that wish to be moved to
