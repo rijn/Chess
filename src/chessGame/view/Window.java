@@ -66,8 +66,8 @@ public class Window {
      *
      * @param board
      */
-    public void initializeBoard(chessGame.model.Board board, chessGame.model.Round round) {
-        panel.add(BorderLayout.CENTER, new Board(board, round));
+    public void initializeBoard(chessGame.view.Board board) {
+        panel.add(BorderLayout.CENTER, board);
         SwingUtilities.updateComponentTreeUI(window);
     }
 

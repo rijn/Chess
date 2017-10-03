@@ -73,6 +73,7 @@ public class Board {
      * @return Piece Target piece
      */
     public Piece getPiece(Movement loc) {
+        if (loc == null) return null;
         if (!loc.valid()) return null;
         return board[loc.x][loc.y].piece;
     }

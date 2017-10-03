@@ -5,9 +5,11 @@ import chessGame.util.Movement;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
+import java.util.function.BiConsumer;
 
 /**
  * Board view class
@@ -18,12 +20,17 @@ public class Board extends ImagePanel {
      */
     chessGame.model.Board board;
 
-    chessGame.model.Round round;
+    public chessGame.model.Round round = null;
 
     /**
      * Space matrix
      */
     Space[][] spaces = new Space[Constant.BOARD_SIZE_X][Constant.BOARD_SIZE_Y];
+
+    Movement from;
+    Movement to;
+
+    BiConsumer<Movement, Movement> moveListener;
 
     /**
      * Constructor
@@ -41,12 +48,16 @@ public class Board extends ImagePanel {
         setLayout(null);
 
         board.getPieces().stream()
-                .forEach(piece -> add(new Piece(piece)));
+                .forEach(piece -> {
+                    Piece _piece = new Piece(piece);
+                    add(_piece);
+                });
 
         for (int x = 0; x < Constant.BOARD_SIZE_X; x++) {
             for (int y = 0; y < Constant.BOARD_SIZE_Y; y++) {
-                spaces[x][y] = new Space(new Movement(x, y));
-                add(spaces[x][y]);
+                Space _space = new Space(new Movement(x, y));
+                spaces[x][y] = _space;
+                add(_space);
             }
         }
 
@@ -91,5 +102,18 @@ public class Board extends ImagePanel {
                 ((Piece)c).focus(false);
             }
         });
+        from = null;
+    }
+
+    public void setMoveListener(BiConsumer<Movement, Movement> fn) {
+        this.moveListener = fn;
+    }
+
+    public void moveTo(Movement to) {
+        this.to = to;
+        if (from != null) {
+            moveListener.accept(from, to);
+        }
+        clearFocus();
     }
 }

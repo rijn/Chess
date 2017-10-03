@@ -70,7 +70,12 @@ public class Piece extends JLabel implements ActionListener {
     public void setUpClickEvent() {
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
+                if (((Board)getParent()).board.getAvailableMovementsOfPiece(((Board)getParent()).from).contains(piece.currentMovement())) {
+                    ((Board)getParent()).moveTo(piece.currentMovement());
+                    return;
+                }
                 ((Board)getParent()).clearFocus();
+                ((Board)getParent()).from = piece.currentMovement();
                 focus(true);
             }
         });

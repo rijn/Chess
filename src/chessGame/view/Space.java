@@ -16,6 +16,8 @@ public class Space extends JLabel {
      */
     Movement currentMovement;
 
+    Movement _movement;
+
     /**
      * Constructor with coordinate
      *
@@ -28,15 +30,20 @@ public class Space extends JLabel {
         }
         setSize(getPreferredSize());
 
-        addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-            }
-        });
+        this._movement = movement;
 
         currentMovement = new Movement(getCoordX(movement), getCoordY(movement));
         move();
 
         display(false);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                ((Board)getParent()).moveTo(_movement);
+            }
+        });
     }
 
     /**

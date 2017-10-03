@@ -1,6 +1,5 @@
 package chessGame.controller;
 
-import chessGame.model.Board;
 import chessGame.model.PieceColor;
 import chessGame.model.Player;
 import chessGame.model.Round;
@@ -29,6 +28,7 @@ public class ViewController {
                 initializeNewUserWindowListener(new NewUserWindow());
             }
         });
+
         window.addNewGameListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -36,6 +36,39 @@ public class ViewController {
 
             }
         });
+        window.addPauseGameListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO
+            }
+        });
+        window.addForfeitGameListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO
+            }
+        });
+
+        window.addUndoistener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO
+            }
+        });
+        window.addRndoistener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO
+            }
+        });
+
+        window.addScordboardListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO
+            }
+        });
+
     }
 
     public static void initializeNewUserWindowListener(NewUserWindow newUserWindow) {
@@ -66,18 +99,21 @@ public class ViewController {
                     return;
                 }
 
-                Board board = new chessGame.model.Board();
+                chessGame.model.Board board = new chessGame.model.Board();
 
                 Player[] players = new Player[]{
                     new Player(PieceColor.WHITE, newGameWindow.getWhitePlayerName(), whitePlayerId),
-                    new Player(PieceColor.WHITE, newGameWindow.getBlackPlayerName(), blackPlayerId)
+                    new Player(PieceColor.BLACK, newGameWindow.getBlackPlayerName(), blackPlayerId)
                 };
 
                 Round round = new Round(players);
 
-                window.initializeBoard(board, round);
+                chessGame.view.Board _board = new chessGame.view.Board(board, round);
+                window.initializeBoard(_board);
 
-                new GameController(board, players, round);
+                GameController gameController = new GameController(board, players, round);
+
+                _board.setMoveListener(gameController.moveTrigger);
 
                 newGameWindow.dispose();
             }
