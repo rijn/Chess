@@ -39,7 +39,7 @@ public class Board {
     /**
      * @details Initialize everything.
      */
-    public void initialize() {
+    public Board() {
         initializeSpace();
         initializePieces();
     }
@@ -154,11 +154,11 @@ public class Board {
             insertPiece(new PiecePawn(PieceColor.WHITE), 6, y);
         }
 
-        // custom piece
-        insertPiece(new PieceZebra(PieceColor.BLACK), 2, 2);
-        insertPiece(new PieceTnt(PieceColor.BLACK), 2, 5);
-        insertPiece(new PieceZebra(PieceColor.WHITE), 5, 5);
-        insertPiece(new PieceTnt(PieceColor.WHITE), 5, 2);
+//        // custom piece
+//        insertPiece(new PieceZebra(PieceColor.BLACK), 2, 2);
+//        insertPiece(new PieceTnt(PieceColor.BLACK), 2, 5);
+//        insertPiece(new PieceZebra(PieceColor.WHITE), 5, 5);
+//        insertPiece(new PieceTnt(PieceColor.WHITE), 5, 2);
     }
 
     /**

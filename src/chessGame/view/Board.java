@@ -18,6 +18,8 @@ public class Board extends ImagePanel {
      */
     chessGame.model.Board board;
 
+    chessGame.model.Round round;
+
     /**
      * Space matrix
      */
@@ -28,10 +30,11 @@ public class Board extends ImagePanel {
      *
      * @param board
      */
-    public Board(chessGame.model.Board board) {
+    public Board(chessGame.model.Board board, chessGame.model.Round round) {
         super(new ImageIcon(Piece.class.getResource("board.gif")).getImage());
 
         this.board = board;
+        this.round = round;
 
         setBackground(Color.white);
         setPreferredSize(new Dimension(500,300));
@@ -71,6 +74,7 @@ public class Board extends ImagePanel {
      * @param piece
      */
     public void displayAvailableMovements(Piece piece) {
+        if (round.current().color != piece.piece.color) return;
         board.getAvailableMovementsOfPiece(piece.piece.currentMovement()).stream()
                 .forEach(m -> {
                     spaces[m.x][m.y].display(true);

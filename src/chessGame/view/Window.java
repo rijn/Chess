@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 /**
  * Window class
  */
-public class Window implements ActionListener {
+public class Window {
     /**
      * Main container
      */
@@ -29,6 +29,8 @@ public class Window implements ActionListener {
         initializeFrame();
         setUpMenu(window);
         initializePanel();
+
+        SwingUtilities.updateComponentTreeUI(window);
     }
 
     /**
@@ -48,19 +50,6 @@ public class Window implements ActionListener {
     }
 
     /**
-     * Initialize Buttons
-     *
-     * **deprecated**
-     *
-     * @param myPanel
-     */
-    private void initializeButton(JPanel myPanel) {
-        JButton button = new JButton("Click me");
-        button.addActionListener(this);
-        myPanel.add(button, BorderLayout.SOUTH);
-    }
-
-    /**
      * Initialize main panel
      */
     private void initializePanel() {
@@ -77,10 +66,18 @@ public class Window implements ActionListener {
      *
      * @param board
      */
-    public void initializeBoard(chessGame.model.Board board) {
-        panel.add(BorderLayout.CENTER, new Board(board));
+    public void initializeBoard(chessGame.model.Board board, chessGame.model.Round round) {
+        panel.add(BorderLayout.CENTER, new Board(board, round));
         SwingUtilities.updateComponentTreeUI(window);
     }
+
+    JMenuItem newUser;
+    JMenuItem newGame;
+    JMenuItem pauseGame;
+    JMenuItem forfeitGame;
+    JMenuItem scoreboard;
+    JMenuItem undo;
+    JMenuItem redo;
 
     /**
      * Set up pop down menu
@@ -89,20 +86,62 @@ public class Window implements ActionListener {
      */
     private void setUpMenu(JFrame window) {
         JMenuBar menubar = new JMenuBar();
-        JMenu file = new JMenu("Game");
-        menubar.add(file);
+
+        JMenu user = new JMenu("User");
+        menubar.add(user);
+        newUser = new JMenuItem("New User");
+        user.add(newUser);
+
+        JMenu game = new JMenu("Game");
+        menubar.add(game);
+        newGame = new JMenuItem("New Game");
+        game.add(newGame);
+        pauseGame = new JMenuItem("Pause Game");
+        game.add(pauseGame);
+        forfeitGame = new JMenuItem("Forfeit Game");
+        game.add(forfeitGame);
+
+        JMenu move = new JMenu("Move");
+        menubar.add(move);
+        undo = new JMenuItem("Undo");
+        move.add(undo);
+        redo = new JMenuItem("Redo");
+        move.add(redo);
+
+        JMenu history = new JMenu("History");
+        menubar.add(history);
+        scoreboard = new JMenuItem("Scoreboard");
+        history.add(scoreboard);
+
         window.setJMenuBar(menubar);
     }
 
-    /**
-     * Override action performer
-     *
-     * @param e
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        JOptionPane.showMessageDialog(null,
-                "I was clicked by "+e.getActionCommand(),
-                "Title here", JOptionPane.INFORMATION_MESSAGE);
+    public void addNewUserListener(ActionListener a) {
+        newUser.addActionListener(a);
     }
+
+    public void addNewGameListener(ActionListener a) {
+        newGame.addActionListener(a);
+    }
+
+    public void addPauseGameListener(ActionListener a) {
+        pauseGame.addActionListener(a);
+    }
+
+    public void addForfeitGameListener(ActionListener a) {
+        forfeitGame.addActionListener(a);
+    }
+
+    public void addScordboardListener(ActionListener a) {
+        scoreboard.addActionListener(a);
+    }
+
+    public void addUndoistener(ActionListener a) {
+        undo.addActionListener(a);
+    }
+
+    public void addRndoistener(ActionListener a) {
+        redo.addActionListener(a);
+    }
+
 }
